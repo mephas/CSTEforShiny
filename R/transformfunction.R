@@ -19,7 +19,7 @@ pu <- function(x, beta) {
   d <- (length(beta) + 1)/2
   v <- x%*%beta
   # alpha <- quantile(apply(x, 1, function(x) sqrt(sum(x^2))), 0.95)
-  alpha <- quantile( sqrt( rowSums(x*x) ), 0.95) 
+  alpha <- quantile( sqrt( rowSums(x*x, na.rm = T) ), 0.95, na.rm = T) 
   t <- (v + alpha)/(2 * alpha)
   u <- pbeta(t, d, d)
   deriv <- dbeta(t, d, d)/(2*alpha)
@@ -30,7 +30,7 @@ pu <- function(x, beta) {
 pu_inv <- function(x, beta, u) {
   d <- (length(beta) + 1)/2
   # alpha <- quantile(apply(x, 1, function(x) sqrt(sum(x^2))), 0.95)
-  alpha <- quantile( sqrt( rowSums(x*x)), 0.95) 
+  alpha <- quantile( sqrt( rowSums(x*x, na.rm = T)), 0.95, na.rm = T) 
   t <- qbeta(u, d, d)
   return(2 * alpha * t - alpha)
 }
